@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import Login from "./components/Login";
@@ -25,3 +25,4 @@ function App() {
 }
 
 export default App;
+export { Appstate };
