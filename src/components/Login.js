@@ -1,11 +1,12 @@
 import { getDocs, query, where } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usersReference } from "../firebase/FirebaseApp";
 import bcrypt from "bcryptjs";
 
 const Login = () => {
   const navigate = useNavigate();
+  const useAppstate = useContext(Appstate);
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
@@ -29,6 +30,7 @@ const Login = () => {
           dataFromDoc.password
         );
         if (isUser) {
+          useAppstate.setLogin(true);
           console.log("Login Success");
         } else {
           console.log("Invalid creds");
