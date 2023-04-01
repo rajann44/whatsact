@@ -48,6 +48,15 @@ const Navbar = () => {
                   Signup
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/chat"
+                >
+                  Chat
+                </Link>
+              </li>
             </ul>
             <form className="d-flex" role="search">
               <input

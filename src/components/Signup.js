@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 const Signup = () => {
   const navigate = useNavigate();
   const [signupFormData, setSignupFormData] = useState({
+    name: "",
     email: "",
     password: "",
     id: "",
@@ -21,6 +22,7 @@ const Signup = () => {
       const salt = bcrypt.genSaltSync(10);
       var hash = bcrypt.hashSync(signupFormData.password, salt);
       await addDoc(usersReference, {
+        name: signupFormData.name,
         email: signupFormData.email,
         password: hash,
         id: Math.random().toString(36).slice(2),
@@ -34,6 +36,19 @@ const Signup = () => {
   return (
     <div className="container w-50 p-5" style={{ backgroundColor: "#dcf8c6" }}>
       <h4 className="text-center">Sign up to WhatsAct</h4>
+      <div className="mb-3">
+        <label htmlFor="exampleFormControlInput1" className="form-label">
+          Full Name
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          placeholder="your fullname here"
+          onChange={(e) =>
+            setSignupFormData({ ...signupFormData, name: e.target.value })
+          }
+        />
+      </div>
       <div className="mb-3">
         <label htmlFor="exampleFormControlInput1" className="form-label">
           Email address
