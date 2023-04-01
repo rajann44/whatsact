@@ -1,39 +1,47 @@
-import { addDoc } from "firebase/firestore";
+import { getDocs, query, where } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { usersReference } from "../firebase/FirebaseApp";
 import bcrypt from "bcryptjs";
-import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
+const Login = () => {
   const navigate = useNavigate();
-  const [signupFormData, setSignupFormData] = useState({
+  const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
-    id: "",
   });
 
   useEffect(() => {
-    console.log("Signup Effect ran");
+    console.log("Login Effect ran");
   }, []);
 
-  const handleSubmit = async () => {
+  const handleLogin = async () => {
     try {
-      const salt = bcrypt.genSaltSync(10);
-      var hash = bcrypt.hashSync(signupFormData.password, salt);
-      await addDoc(usersReference, {
-        email: signupFormData.email,
-        password: hash,
-        id: Math.random().toString(36).slice(2),
+      const queryResult = query(
+        usersReference,
+        where("email", "==", loginFormData.email)
+      );
+      const userDocument = await getDocs(queryResult);
+      userDocument.forEach((singleUserDoc) => {
+        const dataFromDoc = singleUserDoc.data();
+        const isUser = bcrypt.compareSync(
+          loginFormData.password,
+          dataFromDoc.password
+        );
+        if (isUser) {
+          console.log("Login Success");
+        } else {
+          console.log("Invalid creds");
+        }
       });
-      console.log("User signup successful");
     } catch (error) {
-      console.log("User signup failed " + error);
+      console.log("Login Failed: " + error);
     }
   };
 
   return (
     <div className="container w-50 p-5" style={{ backgroundColor: "#dcf8c6" }}>
-      <h4 className="text-center">Sign up to WhatsAct</h4>
+      <h4 className="text-center">Log in to WhatsAct</h4>
       <div className="mb-3">
         <label htmlFor="exampleFormControlInput1" className="form-label">
           Email address
@@ -43,7 +51,7 @@ const Signup = () => {
           className="form-control"
           placeholder="name@example.com"
           onChange={(e) =>
-            setSignupFormData({ ...signupFormData, email: e.target.value })
+            setLoginFormData({ ...loginFormData, email: e.target.value })
           }
         />
       </div>
@@ -56,7 +64,7 @@ const Signup = () => {
           className="form-control"
           placeholder="secret password here"
           onChange={(e) =>
-            setSignupFormData({ ...signupFormData, password: e.target.value })
+            setLoginFormData({ ...loginFormData, password: e.target.value })
           }
         />
       </div>
@@ -64,20 +72,20 @@ const Signup = () => {
         <button
           type="button"
           className="btn btn-success col-md-3 mx-auto text-center"
-          onClick={handleSubmit}
+          onClick={handleLogin}
         >
-          Signup
+          Login
         </button>
       </div>
       <div
         className="text-center my-3"
         style={{ color: "#848484", cursor: "pointer" }}
-        onClick={() => navigate("/login")}
+        onClick={() => navigate("/signup")}
       >
-        Already have an account? Log in
+        Don't have an account? Sign up
       </div>
     </div>
   );
 };
 
-export default Signup;
+export default Login;
