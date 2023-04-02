@@ -10,7 +10,7 @@ const ChatHome = () => {
           <div className="col border-end">
             <LeftNav />
           </div>
-          <div className="col-8" style={{ background: "#ece5dd" }}>
+          <div className="col-9" style={{ background: "#ece5dd" }}>
             <RightChatPage />
           </div>
         </div>

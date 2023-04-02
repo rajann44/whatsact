@@ -20,7 +20,6 @@ const RightChatPage = () => {
   useEffect(
     () => {
       console.log(messageInput);
-
       setMessagesList([]);
       const getMessagesData = async () => {
         setSpinner(true);

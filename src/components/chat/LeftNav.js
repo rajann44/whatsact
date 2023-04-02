@@ -19,7 +19,6 @@ const LeftNav = () => {
   };
   const handleOnClick = (user) => {
     console.log("ClickedUserId: " + user.id);
-    //setCurrentOpenedChatUserId(id);
     useAppstate.setOpenChatUserId(user.id);
     useAppstate.setOpenChatUserName(user.name);
   };
@@ -38,33 +37,35 @@ const LeftNav = () => {
 
   return (
     <div className="userList">
-      {userList.map((user, index) => {
-        return (
-          <div
-            key={index}
-            style={
-              index === hoverIndex
-                ? { backgroundColor: "#f3f4f7", cursor: "pointer" }
-                : {}
-            }
-            onMouseEnter={() => handleMouseEnter(index)}
-            onMouseLeave={() => handleMouseLeave(0)}
-            onClick={() => handleOnClick(user)}
-          >
-            <img
-              src={userProfile}
-              alt="Logo"
-              width="50"
-              height="50"
-              className="d-inline-block align-text-top"
-            />
-            <div className="border-bottom my-3">
-              <h5>{user.name}</h5>
-              <p>....Last seen few days ago</p>
+      {userList
+        .filter((person) => person.name != useAppstate.loginUserName)
+        .map((user, index) => {
+          return (
+            <div
+              key={index}
+              style={
+                index === hoverIndex
+                  ? { backgroundColor: "#f3f4f7", cursor: "pointer" }
+                  : {}
+              }
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={() => handleMouseLeave(0)}
+              onClick={() => handleOnClick(user)}
+            >
+              <img
+                src={userProfile}
+                alt="Logo"
+                width="50"
+                height="50"
+                className="d-inline-block align-text-top"
+              />
+              <div className="border-bottom my-3">
+                <h5>{user.name}</h5>
+                <p>....Last seen few days ago</p>
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
     </div>
   );
 };

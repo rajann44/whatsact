@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../img/nav.png";
 import { Appstate } from "../App";
+import ConfirmModal from "./ConfirmModal";
 
 const Navbar = () => {
   const useAppstate = useContext(Appstate);
@@ -61,9 +62,18 @@ const Navbar = () => {
                 aria-label="Search"
               />
               {useAppstate.login ? (
-                <button className="btn btn-light" disabled>
-                  {useAppstate.loginUserName.substring(0, 6)}
-                </button>
+                <div>
+                  <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li className="nav-item mx-2">
+                      <button className="btn btn-light" disabled>
+                        {useAppstate.loginUserName.substring(0, 6)}
+                      </button>
+                    </li>
+                    <li className="nav-item">
+                      <ConfirmModal></ConfirmModal>
+                    </li>
+                  </ul>
+                </div>
               ) : (
                 <button
                   className="btn btn-light"

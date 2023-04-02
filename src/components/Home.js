@@ -1,4 +1,5 @@
 import React from "react";
+import ConfirmModal from "./ConfirmModal";
 
 const Home = () => {
   return (
