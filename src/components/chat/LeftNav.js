@@ -17,10 +17,11 @@ const LeftNav = () => {
     console.log("Mouse Leave");
     setHoverIndex(null);
   };
-  const handleOnClick = (id) => {
-    console.log("ClickedUserId: " + id);
+  const handleOnClick = (user) => {
+    console.log("ClickedUserId: " + user.id);
     //setCurrentOpenedChatUserId(id);
-    useAppstate.setOpenChatUserId(id);
+    useAppstate.setOpenChatUserId(user.id);
+    useAppstate.setOpenChatUserName(user.name);
   };
 
   useEffect(() => {
@@ -48,7 +49,7 @@ const LeftNav = () => {
             }
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={() => handleMouseLeave(0)}
-            onClick={() => handleOnClick(user.id)}
+            onClick={() => handleOnClick(user)}
           >
             <img
               src={userProfile}

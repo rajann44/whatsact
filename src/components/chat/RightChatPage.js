@@ -61,6 +61,12 @@ const RightChatPage = () => {
 
   return (
     <div className="my-3">
+      <div
+        className="chat-username p-3 text-white rounded-pill my-3"
+        style={{ background: "#128c7e" }}
+      >
+        Username: {useAppstate.openChatUserName}
+      </div>
       {spinner ? (
         <div className="spinner-border" role="status">
           <span className="visually-hidden">Loading...</span>

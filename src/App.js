@@ -11,6 +11,7 @@ const Appstate = createContext();
 function App() {
   const [login, setLogin] = useState(false);
   const [openChatUserId, setOpenChatUserId] = useState(null);
+  const [openChatUserName, setOpenChatUserName] = useState(null);
   const [loginUserId, setLoginUserId] = useState(null);
   const [loginUserName, setLoginUserName] = useState(null);
 
@@ -25,6 +26,8 @@ function App() {
         setLoginUserId,
         loginUserName,
         setLoginUserName,
+        openChatUserName,
+        setOpenChatUserName,
       }}
     >
       <div className="App">
