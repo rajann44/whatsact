@@ -40,7 +40,8 @@ const RightChatPage = () => {
       getMessagesData();
     },
     [useAppstate],
-    [spinner]
+    [spinner],
+    [messageInput]
   );
 
   const handleSendMessage = async () => {
@@ -53,6 +54,7 @@ const RightChatPage = () => {
         text: messageInput,
       });
       console.log("Message sent!!");
+      setMessageInput("");
     } catch (error) {
       console.log("Message not sent: " + error);
     }
@@ -86,7 +88,7 @@ const RightChatPage = () => {
                     }`,
                   }}
                 >
-                  {message.text}
+                  {"Message From: " + message.sender + " ==> " + message.text}
                 </li>
               </ul>
             );
@@ -94,6 +96,7 @@ const RightChatPage = () => {
       <div className="input-group mb-3 my-5">
         <input
           type="text"
+          value={messageInput}
           className="form-control"
           placeholder="Send Message"
           onChange={(e) => setMessageInput(e.target.value)}
