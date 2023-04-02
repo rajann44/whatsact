@@ -92,7 +92,7 @@ const RightChatPage = () => {
               </ul>
             );
           })}
-      <div className="input-group mb-3 my-3">
+      <div className="input-group mb-3 my-5">
         <input
           type="text"
           className="form-control"
