@@ -22,14 +22,8 @@ const RightChatPage = () => {
     const getMessagesData = async () => {
       let customQuery = query(
         messagesReference,
-        and(
-          (where("sender", "==", useAppstate.loginUserId),
-          where("receiver", "==", useAppstate.openChatUserId)),
-          or(
-            where("sender", "==", useAppstate.loginUserId),
-            where("receiver", "==", useAppstate.openChatUserId)
-          )
-        )
+        (where("sender", "==", useAppstate.loginUserId),
+        where("receiver", "==", useAppstate.openChatUserId))
       );
       const queryResult = await getDocs(customQuery);
       console.log(queryResult);
