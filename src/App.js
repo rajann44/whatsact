@@ -10,9 +10,20 @@ const Appstate = createContext();
 
 function App() {
   const [login, setLogin] = useState(false);
+  const [openChatUserId, setOpenChatUserId] = useState(null);
+  const [loginUserId, setLoginUserId] = useState(null);
 
   return (
-    <Appstate.Provider value={{ login, setLogin }}>
+    <Appstate.Provider
+      value={{
+        login,
+        setLogin,
+        openChatUserId,
+        setOpenChatUserId,
+        loginUserId,
+        setLoginUserId,
+      }}
+    >
       <div className="App">
         <Navbar></Navbar>
         <Routes>

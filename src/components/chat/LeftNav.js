@@ -1,11 +1,13 @@
 import { getDocs } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Appstate } from "../../App";
 import { usersReference } from "../../firebase/FirebaseApp";
 import userProfile from "../../img/unknown.jpeg";
 
 const LeftNav = () => {
   const [hoverIndex, setHoverIndex] = useState(null);
   const [userList, setUserList] = useState([]);
+  const useAppstate = useContext(Appstate);
 
   const handleMouseEnter = (index) => {
     console.log("Mouse Enter");
@@ -14,6 +16,11 @@ const LeftNav = () => {
   const handleMouseLeave = () => {
     console.log("Mouse Leave");
     setHoverIndex(null);
+  };
+  const handleOnClick = (id) => {
+    console.log("ClickedUserId: " + id);
+    //setCurrentOpenedChatUserId(id);
+    useAppstate.setOpenChatUserId(id);
   };
 
   useEffect(() => {
@@ -41,6 +48,7 @@ const LeftNav = () => {
             }
             onMouseEnter={() => handleMouseEnter(index)}
             onMouseLeave={() => handleMouseLeave(0)}
+            onClick={() => handleOnClick(user.id)}
           >
             <img
               src={userProfile}

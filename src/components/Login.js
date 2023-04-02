@@ -32,6 +32,8 @@ const Login = () => {
         );
         if (isUser) {
           useAppstate.setLogin(true);
+          useAppstate.setLoginUserId(dataFromDoc.id);
+          navigate("/chat");
           console.log("Login Success");
         } else {
           console.log("Invalid creds");
