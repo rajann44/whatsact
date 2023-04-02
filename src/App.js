@@ -12,6 +12,7 @@ function App() {
   const [login, setLogin] = useState(false);
   const [openChatUserId, setOpenChatUserId] = useState(null);
   const [loginUserId, setLoginUserId] = useState(null);
+  const [loginUserName, setLoginUserName] = useState(null);
 
   return (
     <Appstate.Provider
@@ -22,6 +23,8 @@ function App() {
         setOpenChatUserId,
         loginUserId,
         setLoginUserId,
+        loginUserName,
+        setLoginUserName,
       }}
     >
       <div className="App">

@@ -14,26 +14,35 @@ import { messagesReference } from "../../firebase/FirebaseApp";
 const RightChatPage = () => {
   const [messageInput, setMessageInput] = useState();
   const [messagesList, setMessagesList] = useState([]);
+  const [spinner, setSpinner] = useState(false);
   const useAppstate = useContext(Appstate);
 
-  useEffect(() => {
-    console.log(messageInput);
-    setMessagesList([]);
-    const getMessagesData = async () => {
-      let customQuery = query(
-        messagesReference,
-        (where("sender", "==", useAppstate.loginUserId),
-        where("receiver", "==", useAppstate.openChatUserId))
-      );
-      const queryResult = await getDocs(customQuery);
-      console.log(queryResult);
-      queryResult.forEach((query) => {
-        console.log(query.data());
-        setMessagesList((previous) => [...previous, query.data()]);
-      });
-    };
-    getMessagesData();
-  }, [useAppstate]);
+  useEffect(
+    () => {
+      console.log(messageInput);
+
+      setMessagesList([]);
+      const getMessagesData = async () => {
+        setSpinner(true);
+        console.log("Spinner: " + spinner);
+        let customQuery = query(
+          messagesReference,
+          (where("sender", "==", useAppstate.loginUserId),
+          where("receiver", "==", useAppstate.openChatUserId))
+        );
+        const queryResult = await getDocs(customQuery);
+        console.log(queryResult);
+        queryResult.forEach((query) => {
+          console.log(query.data());
+          setMessagesList((previous) => [...previous, query.data()]);
+        });
+        setSpinner(false);
+      };
+      getMessagesData();
+    },
+    [useAppstate],
+    [spinner]
+  );
 
   const handleSendMessage = async () => {
     try {
@@ -52,6 +61,13 @@ const RightChatPage = () => {
 
   return (
     <div className="my-3">
+      {spinner ? (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      ) : (
+        ""
+      )}
       {messagesList.length == 0
         ? "Lol! So sad No messages yet!"
         : messagesList.map((message, index) => {

@@ -33,6 +33,7 @@ const Login = () => {
         if (isUser) {
           useAppstate.setLogin(true);
           useAppstate.setLoginUserId(dataFromDoc.id);
+          useAppstate.setLoginUserName(dataFromDoc.name);
           navigate("/chat");
           console.log("Login Success");
         } else {

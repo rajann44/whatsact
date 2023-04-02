@@ -1,8 +1,12 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../img/nav.png";
+import { Appstate } from "../App";
 
 const Navbar = () => {
+  const useAppstate = useContext(Appstate);
+  const navigate = useNavigate();
+
   return (
     <div>
       <nav
@@ -43,15 +47,6 @@ const Navbar = () => {
                 <Link
                   className="nav-link active"
                   aria-current="page"
-                  to="/signup"
-                >
-                  Signup
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link
-                  className="nav-link active"
-                  aria-current="page"
                   to="/chat"
                 >
                   Chat
@@ -65,9 +60,19 @@ const Navbar = () => {
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button className="btn btn-outline-success" type="submit">
-                Search
-              </button>
+              {useAppstate.login ? (
+                <button className="btn btn-light" disabled>
+                  {useAppstate.loginUserName.substring(0, 6)}
+                </button>
+              ) : (
+                <button
+                  className="btn btn-light"
+                  type="submit"
+                  onClick={() => navigate("/login")}
+                >
+                  Login
+                </button>
+              )}
             </form>
           </div>
         </div>
