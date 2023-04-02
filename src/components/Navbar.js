@@ -66,7 +66,7 @@ const Navbar = () => {
                   <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item mx-2">
                       <button className="btn btn-light" disabled>
-                        {useAppstate.loginUserName.substring(0, 6)}
+                        {useAppstate.loginUserName.substring(5, 10)}
                       </button>
                     </li>
                     <li className="nav-item">

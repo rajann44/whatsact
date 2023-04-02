@@ -7,54 +7,52 @@ import {
   where,
   orderBy,
 } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Appstate } from "../../App";
 import { messagesReference } from "../../firebase/FirebaseApp";
 
 const RightChatPage = () => {
-  const [messageInput, setMessageInput] = useState();
+  const messageInputRef = useRef();
+  const [messageSent, setMessageSent] = useState(false);
   const [messagesList, setMessagesList] = useState([]);
   const [spinner, setSpinner] = useState(false);
   const useAppstate = useContext(Appstate);
 
-  useEffect(
-    () => {
-      console.log(messageInput);
-      setMessagesList([]);
-      const getMessagesData = async () => {
-        setSpinner(true);
-        console.log("Spinner: " + spinner);
-        let customQuery = query(
-          messagesReference,
-          (where("sender", "==", useAppstate.loginUserId),
-          where("receiver", "==", useAppstate.openChatUserId))
-        );
-        const queryResult = await getDocs(customQuery);
-        console.log(queryResult);
-        queryResult.forEach((query) => {
-          console.log(query.data());
-          setMessagesList((previous) => [...previous, query.data()]);
-        });
-        setSpinner(false);
-      };
-      getMessagesData();
-    },
-    [useAppstate],
-    [spinner],
-    [messageInput]
-  );
+  useEffect(() => {
+    console.log(messageInputRef.current.value);
+    setMessagesList([]);
+    const getMessagesData = async () => {
+      setSpinner(true);
+      console.log("Spinner: " + spinner);
+      let customQuery = query(
+        messagesReference,
+        (where("sender", "==", useAppstate.loginUserId),
+        where("receiver", "==", useAppstate.openChatUserId))
+      );
+      const queryResult = await getDocs(customQuery);
+      console.log(queryResult);
+      queryResult.forEach((query) => {
+        console.log(query.data());
+        setMessagesList((previous) => [...previous, query.data()]);
+      });
+      setSpinner(false);
+    };
+    getMessagesData();
+  }, [useAppstate, messageSent]);
 
   const handleSendMessage = async () => {
     try {
       const ts = new Date().getTime();
+      setMessageSent(false);
       await addDoc(messagesReference, {
         createdAt: new Date(ts).toLocaleString(),
         sender: useAppstate.loginUserId,
         receiver: useAppstate.openChatUserId,
-        text: messageInput,
+        text: messageInputRef.current.value,
       });
+      setMessageSent(true);
+      messageInputRef.current.value = "";
       console.log("Message sent!!");
-      setMessageInput("");
     } catch (error) {
       console.log("Message not sent: " + error);
     }
@@ -96,10 +94,11 @@ const RightChatPage = () => {
       <div className="input-group mb-3 my-5">
         <input
           type="text"
-          value={messageInput}
+          //value={messageInputRef.current.value}
+          ref={messageInputRef}
           className="form-control"
           placeholder="Send Message"
-          onChange={(e) => setMessageInput(e.target.value)}
+          //onChange={(e) => setMessageInput(e.target.value)}
         />
         <button
           type="button"

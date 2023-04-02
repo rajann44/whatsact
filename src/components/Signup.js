@@ -28,6 +28,7 @@ const Signup = () => {
         id: Math.random().toString(36).slice(2),
       });
       console.log("User signup successful");
+      navigate("/login");
     } catch (error) {
       console.log("User signup failed " + error);
     }
