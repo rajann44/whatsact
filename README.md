@@ -8,4 +8,4 @@ In the project directory, you can run:
 
 ### `npm start`
 
-![pexels-anton-46924](https://user-images.githubusercontent.com/60035342/229290885-92e1e874-3342-4f4f-b392-569630260729.jpg)
+![pexels-anton-46924](https://user-images.githubusercontent.com/60035342/229350577-0e2e1e83-97f7-4fc0-86a5-941ba5bad364.png)
