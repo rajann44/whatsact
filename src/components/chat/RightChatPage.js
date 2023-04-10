@@ -1,5 +1,5 @@
 import { addDoc } from "firebase/firestore";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
 import { Appstate } from "../../App";
 import { GroupContext } from "../../context/GroupProvider";
 import { messagesReference } from "../../firebase/FirebaseApp";
@@ -9,6 +9,10 @@ const RightChatPage = () => {
   const { selectedGroup, groupMessagesList } = useContext(GroupContext);
   const messageInputRef = useRef();
   const useAppstate = useContext(Appstate);
+
+  useEffect(() => {
+    console.log("Hello Rajan I am right!");
+  }, [groupMessagesList]);
 
   const handleSendMessage = async () => {
     try {
@@ -42,7 +46,9 @@ const RightChatPage = () => {
                   className="list-group-item my-1"
                   style={{
                     background: `${
-                      message.sender == useAppstate.loginUserId ? "#dcf8c6" : ""
+                      message.senderID == useAppstate.loginUserId
+                        ? "#dcf8c6"
+                        : ""
                     }`,
                   }}
                 >

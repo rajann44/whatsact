@@ -8,30 +8,29 @@ const GroupProvider = (props) => {
     id: "",
     members: "",
   });
-
   const [groupMessagesList, setGroupMessagesList] = useState([]);
+  const [selectedGroup, setSelectedGroup] = useState({});
 
-  const getAllMessagesFromGroup = async () => {
+  const populateGroupsDetail = (groupData) => {
+    setGroup(groupData);
+  };
+
+  const setSelecedGroup = (groupDetails) => {
+    setSelectedGroup(groupDetails);
+    getAllMessagesFromGroup(groupDetails.id);
+  };
+
+  const getAllMessagesFromGroup = async (selectedID) => {
+    setGroupMessagesList([]);
     let customQuery = query(
       messagesReference,
-      where("groupid", "==", selectedGroup.id)
+      where("groupid", "==", selectedID)
     );
     const queryResult = await getDocs(customQuery);
     queryResult.forEach((query) => {
       console.log(query.data());
       setGroupMessagesList((previous) => [...previous, query.data()]);
     });
-  };
-
-  const setSelecedGroup = (groupDetails) => {
-    setSelectedGroup(groupDetails);
-    getAllMessagesFromGroup();
-  };
-
-  const [selectedGroup, setSelectedGroup] = useState({});
-
-  const populateGroupsDetail = (groupData) => {
-    setGroup(groupData);
   };
 
   return (

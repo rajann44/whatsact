@@ -1,17 +1,24 @@
 import { groupsReference } from "../../firebase/FirebaseApp";
 import React, { useContext, useEffect } from "react";
 import userProfile from "../../img/unknown.jpeg";
-import { getDocs } from "firebase/firestore";
+import { getDocs, query, where } from "firebase/firestore";
 import { GroupContext } from "../../context/GroupProvider";
+import { Appstate } from "../../App";
 
 const LeftNav = () => {
   const { group, populateGroupsDetail, setSelecedGroup } =
     useContext(GroupContext);
 
+  const useAppstate = useContext(Appstate);
+
   useEffect(() => {
     populateGroupsDetail([]);
     async function getData() {
-      const groupDoc = await getDocs(groupsReference);
+      let customQuery = query(
+        groupsReference,
+        where("members", "array-contains", useAppstate.loginUserId)
+      );
+      const groupDoc = await getDocs(customQuery);
       const newGroups = [];
       groupDoc.forEach((group) => {
         newGroups.push({ ...group.data() });
