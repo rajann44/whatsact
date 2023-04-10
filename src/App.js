@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import ChatHome from "./components/chat/ChatHome";
+import Group from "./components/Group";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Navbar from "./components/Navbar";
@@ -39,6 +40,7 @@ function App() {
             <Route path="/signup" element={<Signup></Signup>}></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/chat" element={<ChatHome></ChatHome>}></Route>
+            <Route path="/group" element={<Group></Group>}></Route>
           </Routes>
         </div>
       </Appstate.Provider>
