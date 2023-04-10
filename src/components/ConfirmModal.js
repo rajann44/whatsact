@@ -18,7 +18,7 @@ const ConfirmModal = () => {
     <div>
       <button
         type="button"
-        class="btn btn-primary"
+        className="btn btn-primary"
         data-bs-toggle="modal"
         data-bs-target="#exampleModal"
       >
@@ -27,7 +27,7 @@ const ConfirmModal = () => {
       <div
         className="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
         data-backdrop="false"

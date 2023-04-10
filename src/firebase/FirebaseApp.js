@@ -13,6 +13,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const usersReference = collection(db, "users");
+export const groupsReference = collection(db, "groups");
 export const messagesReference = collection(db, "messages");
 
 export default app;

@@ -1,57 +1,37 @@
-import { getDocs } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
-import { Appstate } from "../../App";
-import { usersReference } from "../../firebase/FirebaseApp";
+import { groupsReference } from "../../firebase/FirebaseApp";
+import React, { useContext, useEffect } from "react";
 import userProfile from "../../img/unknown.jpeg";
+import { getDocs } from "firebase/firestore";
+import { GroupContext } from "../../context/GroupProvider";
 
 const LeftNav = () => {
-  const [hoverIndex, setHoverIndex] = useState(null);
-  const [userList, setUserList] = useState([]);
-  const useAppstate = useContext(Appstate);
-
-  const handleMouseEnter = (index) => {
-    console.log("Mouse Enter");
-    setHoverIndex(index);
-  };
-  const handleMouseLeave = () => {
-    console.log("Mouse Leave");
-    setHoverIndex(null);
-  };
-  const handleOnClick = (user) => {
-    console.log("ClickedUserId: " + user.id);
-    useAppstate.setOpenChatUserId(user.id);
-    useAppstate.setOpenChatUserName(user.name);
-  };
+  const { group, populateGroupsDetail, setSelecedGroup } =
+    useContext(GroupContext);
 
   useEffect(() => {
-    setUserList([]);
+    populateGroupsDetail([]);
     async function getData() {
-      const userDoc = await getDocs(usersReference);
-      userDoc.forEach((user) => {
-        setUserList((prv) => [...prv, { ...user.data() }]);
-        console.log(user.data());
+      const groupDoc = await getDocs(groupsReference);
+      const newGroups = [];
+      groupDoc.forEach((group) => {
+        newGroups.push({ ...group.data() });
       });
+      populateGroupsDetail(newGroups);
     }
     getData();
   }, []);
 
+  const handleOnClick = (group) => {
+    console.log("Clicked Group Name: " + group.name);
+    setSelecedGroup(group);
+  };
+
   return (
     <div className="userList">
-      {userList
-        .filter((person) => person.name != useAppstate.loginUserName)
-        .map((user, index) => {
+      {group.length > 0 &&
+        group.map((groupDetail, index) => {
           return (
-            <div
-              key={index}
-              style={
-                index === hoverIndex
-                  ? { backgroundColor: "#f3f4f7", cursor: "pointer" }
-                  : {}
-              }
-              onMouseEnter={() => handleMouseEnter(index)}
-              onMouseLeave={() => handleMouseLeave(0)}
-              onClick={() => handleOnClick(user)}
-            >
+            <div key={index}>
               <img
                 src={userProfile}
                 alt="Logo"
@@ -59,9 +39,14 @@ const LeftNav = () => {
                 height="50"
                 className="d-inline-block align-text-top"
               />
-              <div className="border-bottom my-3">
-                <h5>{user.name}</h5>
-                <p>....Last seen few days ago</p>
+              <div
+                className="border-bottom my-3"
+                onClick={() => handleOnClick(groupDetail)}
+              >
+                <h5>{groupDetail.name}</h5>
+                {groupDetail.members.map((member, index) => (
+                  <li key={index}>{member}</li>
+                ))}
               </div>
             </div>
           );
