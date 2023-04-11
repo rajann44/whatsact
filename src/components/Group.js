@@ -1,5 +1,6 @@
 import { addDoc, getDocs, query, where } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/UserProvider";
 import { groupsReference, usersReference } from "../firebase/FirebaseApp";
 
@@ -9,6 +10,7 @@ const Group = () => {
     name: "",
     members: [],
   });
+  const navigate = useNavigate();
 
   const { login } = useContext(UserContext);
 
@@ -43,6 +45,7 @@ const Group = () => {
   const createGroup = async () => {
     try {
       await addDoc(groupsReference, groupInfo);
+      navigate("/chat");
     } catch (error) {
       console.log(error);
     }
