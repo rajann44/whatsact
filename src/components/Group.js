@@ -1,29 +1,30 @@
-import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
+import { addDoc, getDocs, query, where } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Appstate } from "../App";
 import { UserContext } from "../context/UserProvider";
 import { groupsReference, usersReference } from "../firebase/FirebaseApp";
 
 const Group = () => {
+  const [groupInfo, setGroupInfo] = useState({
+    id: Math.random().toString(36).slice(2),
+    name: "",
+    members: [],
+  });
+
   const { login } = useContext(UserContext);
+
+  const [searchEmail, setSearchEmail] = useState();
+  const [searchResult, setSearchResult] = useState(null);
+
   const [backgroundColor, setBackgroundColor] = useState("white");
   const handleClickColor = () => {
     setBackgroundColor("yellow");
   };
 
-  //Search and select user (logged in user should already be present in group)
-  //Create group with selected + Logged in user (pass users in array)
-
-  const [searchEmail, setSearchEmail] = useState();
-
-  const [groupMembersList, setGroupMembersList] = useState([]);
-  const [searchResult, setSearchResult] = useState(null);
-
-  const [groupName, setGroupName] = useState();
-
   useEffect(() => {
-    setGroupMembersList((oldArray) => [...oldArray, login.id]);
+    setGroupInfo({
+      ...groupInfo,
+      members: [...groupInfo.members, login.id],
+    });
   }, []);
 
   const handleMemberSearch = async (event) => {
@@ -41,11 +42,7 @@ const Group = () => {
 
   const createGroup = async () => {
     try {
-      await addDoc(groupsReference, {
-        id: Math.random().toString(36).slice(2),
-        name: groupName,
-        members: groupMembersList,
-      });
+      await addDoc(groupsReference, groupInfo);
     } catch (error) {
       console.log(error);
     }
@@ -62,7 +59,7 @@ const Group = () => {
           type="email"
           className="form-control"
           placeholder="Enter group name"
-          onChange={(e) => setGroupName(e.target.value)}
+          onChange={(e) => setGroupInfo({ ...groupInfo, name: e.target.value })}
         />
       </div>
       <div className="mb-3">
@@ -88,7 +85,10 @@ const Group = () => {
         <div
           className="searchResult"
           onClick={() =>
-            setGroupMembersList((oldArray) => [...oldArray, searchResult.id])
+            setGroupInfo({
+              ...groupInfo,
+              members: [...groupInfo.members, searchResult.id],
+            })
           }
         >
           <div style={{ backgroundColor }} onClick={handleClickColor}>

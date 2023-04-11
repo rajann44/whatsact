@@ -36,7 +36,7 @@ const Login = () => {
             id: dataFromDoc.id,
             isLoggedIn: true,
           });
-          navigate("/chat");
+          navigate("/group");
           console.log("Login Success");
         } else {
           console.log("Invalid creds");
