@@ -1,14 +1,14 @@
 import { addDoc } from "firebase/firestore";
 import React, { useContext, useEffect, useRef } from "react";
-import { Appstate } from "../../App";
 import { GroupContext } from "../../context/GroupProvider";
 import { messagesReference } from "../../firebase/FirebaseApp";
 import { Timestamp } from "@firebase/firestore";
+import { UserContext } from "../../context/UserProvider";
 
 const RightChatPage = () => {
+  const { login } = useContext(UserContext);
   const { selectedGroup, groupMessagesList } = useContext(GroupContext);
   const messageInputRef = useRef();
-  const useAppstate = useContext(Appstate);
 
   useEffect(() => {
     console.log("Hello Rajan I am right!");
@@ -18,7 +18,7 @@ const RightChatPage = () => {
     try {
       await addDoc(messagesReference, {
         createdAt: Timestamp.fromDate(new Date()),
-        senderID: useAppstate.loginUserId,
+        senderID: login.id,
         text: messageInputRef.current.value,
         groupid: selectedGroup.id,
       });
@@ -46,9 +46,7 @@ const RightChatPage = () => {
                   className="list-group-item my-1"
                   style={{
                     background: `${
-                      message.senderID == useAppstate.loginUserId
-                        ? "#dcf8c6"
-                        : ""
+                      message.senderID == login.id ? "#dcf8c6" : ""
                     }`,
                   }}
                 >

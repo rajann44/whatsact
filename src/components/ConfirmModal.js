@@ -1,16 +1,13 @@
 import React from "react";
 import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { Appstate } from "../App";
+import { UserContext } from "../context/UserProvider";
 
 const ConfirmModal = () => {
-  const useAppstate = useContext(Appstate);
+  const { setLogin } = useContext(UserContext);
   const navigate = useNavigate();
   const signOutMe = () => {
-    useAppstate.setLogin(false);
-    useAppstate.setLoginUserId(null);
-    useAppstate.setLoginUserName(null);
-    useAppstate.setOpenChatUserName(null);
+    setLogin({ name: "", id: "", isLoggedIn: false });
     navigate("/");
   };
 

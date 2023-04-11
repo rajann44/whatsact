@@ -2,12 +2,12 @@ import { getDocs, query, where } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { usersReference } from "../firebase/FirebaseApp";
-import { Appstate } from "../App";
+import { UserContext } from "../context/UserProvider";
 import bcrypt from "bcryptjs";
 
 const Login = () => {
+  const { setLogin } = useContext(UserContext);
   const navigate = useNavigate();
-  const useAppstate = useContext(Appstate);
   const [loginFormData, setLoginFormData] = useState({
     email: "",
     password: "",
@@ -31,9 +31,11 @@ const Login = () => {
           dataFromDoc.password
         );
         if (isUser) {
-          useAppstate.setLogin(true);
-          useAppstate.setLoginUserId(dataFromDoc.id);
-          useAppstate.setLoginUserName(dataFromDoc.name);
+          setLogin({
+            name: dataFromDoc.name,
+            id: dataFromDoc.id,
+            isLoggedIn: true,
+          });
           navigate("/chat");
           console.log("Login Success");
         } else {

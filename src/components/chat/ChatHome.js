@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
-import { Appstate } from "../../App";
+import { UserContext } from "../../context/UserProvider";
 import LeftNav from "./LeftNav";
 import RightChatPage from "./RightChatPage";
 
 const ChatHome = () => {
-  const useAppstate = useContext(Appstate);
+  const { login } = useContext(UserContext);
 
   return (
     <div>
-      {useAppstate.login ? (
+      {login.isLoggedIn ? (
         <div className="container my-3">
           <div className="row">
             <div className="col border-end">

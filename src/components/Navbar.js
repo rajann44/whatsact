@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../img/nav.png";
-import { Appstate } from "../App";
 import ConfirmModal from "./ConfirmModal";
+import { UserContext } from "../context/UserProvider";
 
 const Navbar = () => {
-  const useAppstate = useContext(Appstate);
+  const { login } = useContext(UserContext);
   const navigate = useNavigate();
 
   return (
@@ -61,12 +61,12 @@ const Navbar = () => {
                 placeholder="Search"
                 aria-label="Search"
               />
-              {useAppstate.login ? (
+              {login.isLoggedIn ? (
                 <div>
                   <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                     <li className="nav-item mx-2">
                       <button className="btn btn-light" disabled>
-                        {useAppstate.loginUserName.substring(5, 10)}
+                        {login.name.substring(5, 10)}
                       </button>
                     </li>
                     <li className="nav-item">

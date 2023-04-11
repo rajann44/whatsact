@@ -2,9 +2,11 @@ import { addDoc, getDoc, getDocs, query, where } from "firebase/firestore";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Appstate } from "../App";
+import { UserContext } from "../context/UserProvider";
 import { groupsReference, usersReference } from "../firebase/FirebaseApp";
 
 const Group = () => {
+  const { login } = useContext(UserContext);
   const [backgroundColor, setBackgroundColor] = useState("white");
   const handleClickColor = () => {
     setBackgroundColor("yellow");
@@ -12,8 +14,6 @@ const Group = () => {
 
   //Search and select user (logged in user should already be present in group)
   //Create group with selected + Logged in user (pass users in array)
-
-  const useAppstate = useContext(Appstate);
 
   const [searchEmail, setSearchEmail] = useState();
 
@@ -23,7 +23,7 @@ const Group = () => {
   const [groupName, setGroupName] = useState();
 
   useEffect(() => {
-    setGroupMembersList((oldArray) => [...oldArray, useAppstate.loginUserId]);
+    setGroupMembersList((oldArray) => [...oldArray, login.id]);
   }, []);
 
   const handleMemberSearch = async (event) => {

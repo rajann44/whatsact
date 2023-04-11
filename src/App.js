@@ -1,4 +1,4 @@
-import { createContext, useState } from "react";
+import { createContext } from "react";
 import { Route, Routes } from "react-router-dom";
 import ChatHome from "./components/chat/ChatHome";
 import Group from "./components/Group";
@@ -7,32 +7,14 @@ import Login from "./components/Login";
 import Navbar from "./components/Navbar";
 import Signup from "./components/Signup";
 import GroupProvider from "./context/GroupProvider";
+import UserProvider from "./context/UserProvider";
 
 const Appstate = createContext();
 
 function App() {
-  const [login, setLogin] = useState(false);
-  const [openChatUserId, setOpenChatUserId] = useState(null);
-  const [openChatUserName, setOpenChatUserName] = useState(null);
-  const [loginUserId, setLoginUserId] = useState(null);
-  const [loginUserName, setLoginUserName] = useState(null);
-
   return (
-    <GroupProvider>
-      <Appstate.Provider
-        value={{
-          login,
-          setLogin,
-          openChatUserId,
-          setOpenChatUserId,
-          loginUserId,
-          setLoginUserId,
-          loginUserName,
-          setLoginUserName,
-          openChatUserName,
-          setOpenChatUserName,
-        }}
-      >
+    <UserProvider>
+      <GroupProvider>
         <div className="App">
           <Navbar></Navbar>
           <Routes>
@@ -43,8 +25,8 @@ function App() {
             <Route path="/group" element={<Group></Group>}></Route>
           </Routes>
         </div>
-      </Appstate.Provider>
-    </GroupProvider>
+      </GroupProvider>
+    </UserProvider>
   );
 }
 
