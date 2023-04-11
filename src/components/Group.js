@@ -83,7 +83,7 @@ const Group = () => {
           </button>
         </form>
         <div
-          className="searchResult"
+          className="row searchResult w-50"
           onClick={() =>
             setGroupInfo({
               ...groupInfo,
@@ -91,9 +91,17 @@ const Group = () => {
             })
           }
         >
-          <div style={{ backgroundColor }} onClick={handleClickColor}>
+          <div style={{ backgroundColor }} className="col-md-8">
             {searchResult != null && searchResult.name}
           </div>
+          {searchResult != null && (
+            <div
+              className="btn btn-warning mx-5 col-md-4"
+              onClick={handleClickColor}
+            >
+              Add User!
+            </div>
+          )}
         </div>
       </div>
       <div className="row">

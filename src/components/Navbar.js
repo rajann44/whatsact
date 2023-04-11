@@ -53,6 +53,15 @@ const Navbar = () => {
                   Chat
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link
+                  className="nav-link active"
+                  aria-current="page"
+                  to="/group"
+                >
+                  Group
+                </Link>
+              </li>
             </ul>
             <form className="d-flex" role="search">
               <input
